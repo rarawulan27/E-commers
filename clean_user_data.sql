@@ -45,3 +45,23 @@ ORDER BY
 jumlah_produk DESC;
 -->upper: seragam kapital semua 
 -->Trim: buat hapus spasi
+----Buat tau kalok performa pengiriman dari id order/performa pengiriman berapa lama------
+SELECT
+  order_id,
+  TIMESTAMP_DIFF(shipped_at, created_at, DAY) AS days_to_ship,
+  TIMESTAMP_DIFF(delivered_at, shipped_at, DAY) AS days_to_deliver
+FROM
+bigquery-public-data.thelook_ecommerce.orders
+WHERE
+  shipped_at IS NOT NULL AND delivered_at IS NOT NULL;
+---Buat tau kalok tipe event dan total event-----
+SELECT 
+  event_type,
+  COUNT(*) AS total_event
+FROM 
+  `bigquery-public-data.thelook_ecommerce.events`
+GROUP BY 
+  event_type
+ORDER BY 
+  total_event DESC;
+
